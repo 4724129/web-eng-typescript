@@ -1,18 +1,23 @@
-const todos = [
-  { id: 1, title: "型を復習する", completed: true },
-  { id: 2, title: "配列を学ぶ", completed: false },
-  { id: 3, title: "レポートを書く", completed: false },
-  { id: 4, title: "課題をpushする", completed: false },
-];
+import {
+  fetchTodos,
+  findTodo,
+  toggleTodo,
+  countIncompleteTodos,
+} from "./todo-service.js";
 
-const completedBefore = todos.filter((todo) => todo.completed).length;
+const loaded = await fetchTodos();
+console.log(loaded);
 
-for (const todo of todos) {
-  if (!todo.completed) {
-    todo.completed = true;
-    console.log(`更新後: ${todo.title} [完了]`);
-  }
+const found = await findTodo(2);
+
+if (found === undefined) {
+  console.log("TODOが見つからない");
+} else {
+  console.log(found.title);
 }
 
-const completedAfter = todos.filter((todo) => todo.completed).length;
-console.log(`完了件数: 更新前 ${completedBefore}件 -> 更新後 ${completedAfter}件`);
+const updated = await toggleTodo(2);
+console.log(updated);
+
+const incompleteCount = await countIncompleteTodos();
+console.log(`未完了のTODO: ${incompleteCount}件`);
